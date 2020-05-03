@@ -1,0 +1,130 @@
+body{
+ line-height: 18px;
+}
+.legend{
+    order:1;
+    box-shadow: 0 0 10px 2px rgba(31,51,73,.1) !important;
+    background-color: rgba(255,255,255,0.6);
+    /*padding-top: 12px;*/
+    padding-bottom: 2%;
+    padding-left: 7%;
+    padding-right: 7%;
+    margin-bottom: 12%;
+    /*margin-right: 12px;*/
+    z-index: 1;
+    bottom: 0;
+    right:0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+}
+#legend_text{
+    font-size:1.9em;
+}
+.textdiv{ 
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  margin-top:2%;
+  margin-bottom: 2%;
+  text-align: left;
+}
+.item_text{
+    order:1;
+    flex-shrink: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: content-box;
+}
+.legenditem{
+    order:3;
+    position: relative;
+    border-radius: 100%;
+    min-width: 5px;
+    min-height: 5px;
+    flex-shrink: 0;
+    white-space: nowrap;
+
+}
+.rightend{
+    justify-content: flex-end;
+    margin-right: 1%;
+}
+.geocoder {
+    order:2;
+	/*position: absolute;*/
+    z-index: 1;
+    /*margin-left: 50%;*/
+    /*top: 10px;*/
+    width:1200px;
+    flex-shrink: 0;
+}
+.mapboxgl-ctrl-geocoder {
+	min-width: 100%;
+}
+.title{
+    color:black;
+    margin-top: 4%;
+    white-space: nowrap;
+}
+.topContainer{
+    position: absolute;
+    align-content: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    box-sizing: content-box;
+    top:3%;
+    left:25%;
+    align-items: baseline;
+}
+.toggleBox{
+    order:1;
+    box-shadow:0 0 10px 2px rgba(31,51,73,.1) !important;
+    border:white;
+    background-color: white;
+    margin-left: 1%;
+    /*margin-top: 0.5%;*/
+    z-index: 1;
+    border-width: 2px;
+    display:-webkit-inline-flex;
+    display:inline-flex;
+    text-align:center;
+    border-radius:18px;
+    max-height: 23px;
+}
+.logo{
+    order:2;
+    z-index: 1;
+    /*margin-left: 4%;
+    margin-top: 10%;*/
+    box-sizing: content-box;
+    flex-grow: 1;
+    flex-shrink: 1;
+    width:96px;
+    height:90px;
+}
+
+.bottomContainer{
+    position: absolute;
+    align-content: stretch;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    box-sizing: content-box;
+    bottom:3%;
+    right:2%;
+}
+.space{
+    order:2;
+    flex-basis: 5px;
+    flex-shrink: 1;
+    /*width:5px;*/
+}
+.date_text{
+    margin-top: 2%;
+    text-align: center;
+    white-space: nowrap;
+}
