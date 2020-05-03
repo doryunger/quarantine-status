@@ -1,7 +1,6 @@
 # Quarantine Status
 
-<img src="https://imgur.com/kzVlCsP">
-
+!['Example Rig Presets'](https://raw.githubusercontent.com/wiki/schroef/extra-image-list/images/extra-image-list.jpg?v26-09-2018)
 ## Setup
 
 npm install
