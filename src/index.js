@@ -282,6 +282,9 @@ class Application extends React.Component {
         <div id='map' ref={this.mapRef} className="absolute top right left bottom" />
         <div id='topContainer' className='topContainer'>
         <div id="geocoder" className="geocoder"></div>
+        <div className="toggleBox">
+          {options.map(renderOptions)}
+        </div>
         </div>
         <Legend activeState={this.state.active}/>
       </div>

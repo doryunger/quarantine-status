@@ -5,6 +5,7 @@ function resizeIt(elements,stylesheet,status){
     let widthfactor;
     let currentWidth=$(window).width();
     let currentHeight=$(window).height();
+    //console.log(currentHeight,currentWidth);
     let legend_title=elements['legend']['init']['title'];
     let legend_subtitle=elements['legend']['init']['subtitle'];
     let item_text=elements['item']['init']['text'];
@@ -39,33 +40,53 @@ function resizeIt(elements,stylesheet,status){
     let item_pixelheightFactor=heightfactor*1.2;
     let logo_heightFactor=heightfactor*10;
     let logo_widthFactor=widthfactor*2.5;
+    
     if (change=='width'){
       stylesheet['item_value_height']=JSON.stringify(item_height-item_pixelwidthFactor)+'px';
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelwidthFactor)+'px';
+      //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.25)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
       $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
       $('.logo').css('width',  JSON.stringify(logo_width-logo_widthFactor)+'px');
+
     }
+
     else if(change=='height'){
       stylesheet['item_value_height']=JSON.stringify(item_height-item_pixelheightFactor)+'px';
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelheightFactor)+'px';
+      //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(heightfactor*(0.55)))+'%';
+      //$('.toggleBox').css('margin-top', JSON.stringify(heightfactor+0.5)+'%');
       $('.logo').css('height',  JSON.stringify(logo_height-logo_heightFactor)+'px');
     }
+    
     else{
       stylesheet['item_value_height']=JSON.stringify(item_height-item_pixelwidthFactor)+'px';
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelwidthFactor)+'px';
+      //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.2)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
+      //$('.toggleBox').css('margin-top', JSON.stringify(heightfactor+0.5)+'%');
       $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
       $('.logo').css('height',  JSON.stringify(logo_height-logo_heightFactor)+'px');
       $('.logo').css('width',  JSON.stringify(logo_width-logo_widthFactor)+'px');
       $('.geocoder').css('width',JSON.stringify(geocoder-(widthfactor*47))+'px');
     }
     if (currentWidth<600 && currentWidth>300 ){
+      if (currentWidth<500 && currentWidth>400){
+        $('.geocoder').css('margin-left','22%');
+      }
+      else if (currentWidth<400 && currentWidth>350){
+        $('.geocoder').css('margin-left','17%');
+      }
+      else if (currentWidth<350 && currentWidth>300){
+        $('.geocoder').css('margin-left','9%');
+      }
       if ($('.topContainer').css('display')=='none'){
         $('.topContainer').css('display','flex');
       }
   }
   else if  (currentWidth >650 ){
+    $('.geocoder').css('margin-left','35%');
+    //$('.toggleBox').css('margin-top', '0.5%');
     $('.bottomContainer').css('right', '2%');
   }
   else if (currentWidth <300 ){
@@ -94,9 +115,22 @@ function resizeIt(elements,stylesheet,status){
     let logo_heightFactor=heightfactor*16;
     let logo_widthFactor=widthfactor*2.5;
     if (currentWidth<600 && currentWidth>300 ){
+      if (currentWidth<500 && currentWidth>400){
+        $('.geocoder').css('margin-left','22%');
+      }
+      else if (currentWidth<400 && currentWidth>350){
+        $('.geocoder').css('margin-left','17%');
+      }
+      else if (currentWidth<350 && currentWidth>300){
+        $('.geocoder').css('margin-left','9%');
+      }
       if ($('.topContainer').css('display')=='none'){
         $('.topContainer').css('display','flex');
       }
+  }
+  else if  (currentWidth>600 ){
+    $('.geocoder').css('margin-left','35%');
+
   }
   else if (currentWidth<300 ){
     $('.topContainer').css('display','none');
@@ -112,8 +146,10 @@ function resizeIt(elements,stylesheet,status){
     if (widthfactor>1 && heightfactor<1){
       stylesheet['item_value_height']=JSON.stringify(item_height-item_pixelwidthFactor)+'px';
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelwidthFactor)+'px';
+      //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.25)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
       $('.geocoder').css('width',JSON.stringify(geocoder-(widthfactor*47))+'px');
+      //$('.toggleBox').css('margin-top', JSON.stringify(widthfactor+0.5)+'%');
       $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
      
     }
@@ -123,12 +159,15 @@ function resizeIt(elements,stylesheet,status){
     if (heightfactor>1 && widthfactor<1){
       stylesheet['item_value_height']=JSON.stringify(item_height-item_pixelheightFactor)+'px';
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelheightFactor)+'px';
+      //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(heightfactor*(0.55)))+'%';
      
     }
     if (widthfactor>1 && heightfactor>1){
       stylesheet['item_value_height']=JSON.stringify(item_height-item_pixelwidthFactor)+'px';
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelwidthFactor)+'px';
+      //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.2)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
+      //$('.toggleBox').css('margin-top', JSON.stringify(heightfactor+0.8)+'%');
       $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
       $('.geocoder').css('width',JSON.stringify(geocoder-(widthfactor*47))+'px');
       $('.logo').css('height',  JSON.stringify(logo_height-logo_heightFactor)+'px');
@@ -136,6 +175,7 @@ function resizeIt(elements,stylesheet,status){
 
     }
   }
-}
+  
+  }
 
-export {resizeIt};
+  export {resizeIt};

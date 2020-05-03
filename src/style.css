@@ -1,11 +1,8 @@
-body{
- line-height: 18px;
-}
 .legend{
     order:1;
     box-shadow: 0 0 10px 2px rgba(31,51,73,.1) !important;
     background-color: rgba(255,255,255,0.6);
-    /*padding-top: 12px;*/
+    padding-top: 12px;
     padding-bottom: 2%;
     padding-left: 7%;
     padding-right: 7%;
@@ -55,7 +52,7 @@ body{
     order:2;
 	/*position: absolute;*/
     z-index: 1;
-    /*margin-left: 50%;*/
+    margin-left: 35%;
     /*top: 10px;*/
     width:1200px;
     flex-shrink: 0;
@@ -76,7 +73,7 @@ body{
     flex-wrap: nowrap;
     box-sizing: content-box;
     top:3%;
-    left:25%;
+    left:3%;
     align-items: baseline;
 }
 .toggleBox{
