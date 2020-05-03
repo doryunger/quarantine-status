@@ -1,6 +1,6 @@
-#Quarantine Status
+# Quarantine Status
 
-##Setup
+## Setup
 
 npm install
 npm start
