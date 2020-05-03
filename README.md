@@ -1,6 +1,6 @@
 # Quarantine Status
 
-![test](https://imgur.com/kzVlCsP)
+![tes](https://imgur.com/kzVlCsP)
 
 ## Setup
 
