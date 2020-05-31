@@ -1,10 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { useContext } from 'react';
 import ReactDOM from 'react-dom'
 import mapboxgl from 'mapbox-gl'
 import $ from "jquery";
 import './style.css'; 
 import {resizeIt} from './resizeIt';
 import {CheckStatus,forwardGeocoder} from './helpers';
+import Cookies from 'universal-cookie';
+import {ShepherdTour, ShepherdTourContext} from 'react-shepherd';
+
 
 //Initialize variables 
 let layersList=[]
@@ -15,7 +19,85 @@ let geocoder;
 let geocoderActive='false';
 var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 let func;
-
+const cookies = new Cookies();
+const tourOptions = {
+  defaultStepOptions: {
+    cancelIcon: {
+      enabled: false
+    },
+    classes:'shepherd-arrows'
+  },
+  useModalOverlay: true
+};
+//const tour = Shephe;
+const steps = [
+  { id: 'start',
+  attachTo: '.geocoder bottom',
+  beforeShowPromise: function() {
+    return new Promise(function(resolve) {
+      setTimeout(function() {
+        resolve();
+      }, 1500);
+    });
+  },
+  buttons: [
+    {
+      classes: 'shepherd-button-primary',
+      text: 'Next',
+      type: 'next'
+    }
+  ],
+  title: "Welcome to Jerusalem's Quarntine App",
+  text: ["This map stores data uniquely produced for Jerusalem. The data contains the current quarantine status of each neighborhood and the average number of cases in each statistical area. For your convenience, there's a legend at the bottom left corner of the map"],
+},{
+    id: 'geocoder',
+      attachTo: {element: '.geocoder', on: 'bottom'},
+      beforeShowPromise: function() {
+        return new Promise(function(resolve) {
+          setTimeout(function() {
+            resolve();
+          }, 500);
+        });
+      },
+      buttons: [
+        {
+          classes: 'shepherd-button-primary',
+          text: 'Next',
+          type: 'next'
+        }
+      ],
+      title: 'geocoder',
+      text: ['Allows you to get a status of a specific address in Jerusalem by typing it at the geocoder (partially support  English at the moment)'],
+  },
+  {
+    id: 'toggle',
+      attachTo: {element: '.toggleBox', on: 'bottom'},
+      beforeShowPromise: function() {
+        return new Promise(function(resolve) {
+          setTimeout(function() {
+            resolve();
+          }, 500);
+        });
+      },
+      buttons: [
+        {
+          classes: 'shepherd-button-primary',
+          text: 'Done',
+          type: 'next'
+        }
+      ],
+      title: 'toggle button',
+      text: ["Switches between quarantine status map and a 3D display of a number of cases in statistical areas('stats')."],
+  },
+];
+function Button() {
+  const tour = useContext(ShepherdTourContext);
+  return (
+    <button className="button dark" onClick={tour.start}>
+      Start Tour
+    </button>
+  );
+}
 //Creates legend elemnt by layer type
 function Legend(activeState){ 
 
@@ -32,13 +114,13 @@ function Legend(activeState){
   if (activeState.activeState.id==0){
     divclass='textdiv';}
   else if (activeState.activeState.id==1){
-    divclass='textdiv rightend';}
+    divclass='textdiv leftend';}
   const renderLegend = (stop, i) => {
       return (
         <div key={i} className={divclass}>
-          <span className='legenditem' style={{ backgroundColor: stop[1], height:stylesheet['item_value_height'],width:stylesheet['item_value_width'],marginTop:stylesheet['item_value_margin_top'] }} />
+          <span className='legenditem' style={{ backgroundColor: stop[0], height:stylesheet['item_value_height'],width:stylesheet['item_value_width'],marginTop:stylesheet['item_value_margin_top'] }} />
           <span className='space'></span>
-          <span className='item_text' style={item_text}> {`${stop[0].toLocaleString()}`}</span>
+          <span className='item_text' style={item_text}> {`${stop[1].toLocaleString()}`}</span>
         </div>
       );
     }
@@ -75,29 +157,29 @@ function Legend(activeState){
 //options array stores the details of each 'mode' 
 const options = [{
   id:0,
-  name: 'מקרא',
-  type:'סטטוס',
-  description: 'סטטוס סגר בשכונות',
-  property: 'עדכניות נתונים: 13.04.2020',
+  name: 'Legend',
+  type:'status',
+  description: "Neighborhood's Quarantine Status",
+  property: 'Last Update: 13.04.2020',
   stops: [
-    ['אזור מוגבל בתנועה', '#A0262E'],
-    ['אזור חופשי לתנועה', '#20652C']
+    ['#A0262E','Limited Access Area' ],
+    ['#20652C','Non-Limited Access Area']
   ],
   layers:[{'id':'jer-admin','type':'line','source':'jlm_data_source','source-layer':'jlm_neighborhoods_line_dissolved','line-color':'#cdad00','line-width':5},
           {'id':'neighborhoods_layer','type':'fill','source':'jlm_data_source','source-layer':'jlm_neighborhoods','fill-color':'rgba(0,0,0,0)','fill-opacity':0},
           {'id':'neighborhoods_highlight','type':'fill','source':'jlm_data_source','source-layer':'jlm_neighborhoods','fill-color':'rgba(0,0,0,0)','fill-opacity':0.5}]
 }, {
   id:1,
-  name: 'מקרא',
-  type:'חולים',
-  description: "מס' חולים באזורים סטטיסטיים",
-  property: 'עדכניות נתונים: 16.04.2020',
+  name: 'Legend',
+  type:'stats',
+  description: "An average number of cases",
+  property: 'Last Update: 16.04.2020',
   stops: [
-    [0, '#142850'],
-    [5, '#27496d'],
-    [10, '#0c7b93'],
-    [15, '#00a8cc'],
-    [20, '#abdfeb']
+    ['#142850',0],
+    ['#27496d',5],
+    ['#0c7b93',10],
+    ['#00a8cc',15],
+    ['#abdfeb',20]
   ],
   layers:[{'id':'jer-admin','type':'line','source':'jlm_data_source','source-layer':'jlm_stat_areas_line_dissolved','line-color':'#cdad00','line-width':5},
           {'id':'neighborhoods_score','type':'fill-extrusion','source':'jlm_data_source','source-layer':'jlm_stat_areas','fill-extrusion-color':['interpolate',['exponential',2],
@@ -112,6 +194,7 @@ $(document).ready(function() {
 
 //The main component that holdes the map itself
 class Application extends React.Component {
+  
   mapRef = React.createRef();
   map;
 
@@ -127,7 +210,7 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
-  
+     
       mapboxgl.accessToken = process.env.REACT_APP_TOKEN;
       map = new mapboxgl.Map({
       container: 'map',
@@ -148,9 +231,6 @@ class Application extends React.Component {
 
       document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
-     
-
-        
     map.on('load', () => {
       map.addSource('jlm_data_source', {
         type: 'vector',
@@ -165,7 +245,10 @@ class Application extends React.Component {
       func=function(e){CheckStatus('hover',[e.lngLat.lng,e.lngLat.lat],map,geocoder,geocoderActive)};
       map.on('mousemove', 'neighborhoods_layer', func);
     }
-
+    if (!cookies.get('quarantine')){
+        cookies.set('quarantine','quarantine');
+        $('.button.dark').trigger('click');
+      }
   }
   setLayer(){
     if (layersList.length>0){
@@ -266,7 +349,7 @@ class Application extends React.Component {
   };
 
   render() {
-
+    
     const { name, description, stops, property } = this.state.active;
     const renderOptions = (option, i) => {
       return (
@@ -276,6 +359,9 @@ class Application extends React.Component {
         </label>
       );
     }
+   
+      
+     
   
     return (
       <div>
@@ -287,8 +373,12 @@ class Application extends React.Component {
         </div>
         </div>
         <Legend activeState={this.state.active}/>
+        <ShepherdTour steps={steps} tourOptions={tourOptions}>
+         <Button/>
+        </ShepherdTour>
       </div>
     );
+    
   }
 }
 

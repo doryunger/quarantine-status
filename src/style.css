@@ -1,3 +1,5 @@
+@import 'shepherd.css';
+
 .legend{
     order:1;
     box-shadow: 0 0 10px 2px rgba(31,51,73,.1) !important;
@@ -21,21 +23,21 @@
 .textdiv{ 
   display: flex;
   align-items: baseline;
-  justify-content: flex-end;
+  /*justify-content: flex-end;*/
   box-sizing: border-box;
   margin-top:2%;
   margin-bottom: 2%;
-  text-align: left;
+  text-align: right;
 }
 .item_text{
-    order:1;
+    order:3;
     flex-shrink: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
     box-sizing: content-box;
 }
 .legenditem{
-    order:3;
+    order:1;
     position: relative;
     border-radius: 100%;
     min-width: 5px;
@@ -44,12 +46,12 @@
     white-space: nowrap;
 
 }
-.rightend{
-    justify-content: flex-end;
-    margin-right: 1%;
+.leftend{
+    /*justify-content: flex-end;*/
+    margin-left: 1%;
 }
 .geocoder {
-    order:2;
+    order:1;
 	/*position: absolute;*/
     z-index: 1;
     margin-left: 35%;
@@ -77,11 +79,10 @@
     align-items: baseline;
 }
 .toggleBox{
-    order:1;
+    order:2;
     box-shadow:0 0 10px 2px rgba(31,51,73,.1) !important;
     border:white;
     background-color: white;
-    margin-left: 1%;
     /*margin-top: 0.5%;*/
     z-index: 1;
     border-width: 2px;
@@ -102,6 +103,13 @@
     width:96px;
     height:90px;
 }
+.shepherd{
+    position: relative;
+    top: 10%;
+    left: 10%;
+    z-index: 2;
+}
+
 
 .bottomContainer{
     position: absolute;
@@ -112,7 +120,7 @@
     flex-wrap: wrap;
     box-sizing: content-box;
     bottom:3%;
-    right:2%;
+    left:2%;
 }
 .space{
     order:2;
@@ -124,4 +132,18 @@
     margin-top: 2%;
     text-align: center;
     white-space: nowrap;
+}
+.shepherd-button-primary{
+    padding:0.2rem 0.5rem;
+}
+
+@media only screen and (max-width: 600px){
+    .toggleBox{
+        margin-left:5%
+    }
+}
+@media only screen and (min-width: 1000px){
+    .toggleBox{
+        margin-left:20%
+    }
 }

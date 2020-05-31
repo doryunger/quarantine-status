@@ -46,7 +46,7 @@ function resizeIt(elements,stylesheet,status){
       stylesheet['item_value_width']=JSON.stringify(item_width-item_pixelwidthFactor)+'px';
       //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.25)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
-      $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
+      $('.bottomContainer').css('left', JSON.stringify(widthfactor*0.3)+'%');
       $('.logo').css('width',  JSON.stringify(logo_width-logo_widthFactor)+'px');
 
     }
@@ -65,7 +65,7 @@ function resizeIt(elements,stylesheet,status){
       //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.2)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
       //$('.toggleBox').css('margin-top', JSON.stringify(heightfactor+0.5)+'%');
-      $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
+      $('.bottomContainer').css('left', JSON.stringify(widthfactor*0.3)+'%');
       $('.logo').css('height',  JSON.stringify(logo_height-logo_heightFactor)+'px');
       $('.logo').css('width',  JSON.stringify(logo_width-logo_widthFactor)+'px');
       $('.geocoder').css('width',JSON.stringify(geocoder-(widthfactor*47))+'px');
@@ -87,7 +87,7 @@ function resizeIt(elements,stylesheet,status){
   else if  (currentWidth >650 ){
     $('.geocoder').css('margin-left','35%');
     //$('.toggleBox').css('margin-top', '0.5%');
-    $('.bottomContainer').css('right', '2%');
+    $('.bottomContainer').css('left', '2%');
   }
   else if (currentWidth <300 ){
     $('.topContainer').css('display','none');
@@ -150,7 +150,7 @@ function resizeIt(elements,stylesheet,status){
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
       $('.geocoder').css('width',JSON.stringify(geocoder-(widthfactor*47))+'px');
       //$('.toggleBox').css('margin-top', JSON.stringify(widthfactor+0.5)+'%');
-      $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
+      $('.bottomContainer').css('left', JSON.stringify(widthfactor*0.3)+'%');
      
     }
     else{
@@ -168,7 +168,7 @@ function resizeIt(elements,stylesheet,status){
       //stylesheet['item_value_margin_top']=JSON.stringify(item_margin_top+(widthfactor*(0.2)))+'%';
       stylesheet['geocoder']=JSON.stringify(geocoder-(widthfactor*47))+'px';
       //$('.toggleBox').css('margin-top', JSON.stringify(heightfactor+0.8)+'%');
-      $('.bottomContainer').css('right', JSON.stringify(widthfactor*0.3)+'%');
+      $('.bottomContainer').css('left', JSON.stringify(widthfactor*0.3)+'%');
       $('.geocoder').css('width',JSON.stringify(geocoder-(widthfactor*47))+'px');
       $('.logo').css('height',  JSON.stringify(logo_height-logo_heightFactor)+'px');
       $('.logo').css('width',  JSON.stringify(logo_width-logo_widthFactor)+'px');
