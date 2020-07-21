@@ -1,16 +1,18 @@
-import React from 'react';
-import { useContext } from 'react';
-import ReactDOM from 'react-dom'
-import mapboxgl from 'mapbox-gl'
-import $ from "jquery";
-import './style.css'; 
-import {resizeIt} from './resizeIt';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import * as mapboxgl from 'mapbox-gl';
+import './style.css';
 import {CheckStatus,forwardGeocoder} from './helpers';
 import Cookies from 'universal-cookie';
 import {ShepherdTour, ShepherdTourContext} from 'react-shepherd';
 
 
-//Initialize variables 
+var tour:any;
+var expression:any;
+var ref:any;
+var mapRef:any;
+let ids:any;
+//Initialize variables
 let layersList=[]
 let elements={'legend':{'init':{'height':175,'width':228,'title':1.5,'subtitle':1.2}},'item':{'init':{'height':12,'width':12,'text':1.1,'margin-top':3.9}},'logo':{'init':{'width':106,'height':100}},'btmCon':{'right':2},'toggle':{'margin-top':0.5},'geocoder':850,'prev_heightfactor':null,'prev_widthfactor':null};
 let stylesheet={};
@@ -19,6 +21,7 @@ let geocoder;
 let geocoderActive='false';
 var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 let func;
+const useContext=React.useContext;
 const cookies = new Cookies();
 const tourOptions = {
   defaultStepOptions: {
@@ -66,7 +69,7 @@ const steps = [
           type: 'next'
         }
       ],
-      title: 'geocoder',
+      title: 'Geocoder',
       text: ['Allows you to get a status of a specific address in Jerusalem by typing it at the geocoder (partially support  English at the moment)'],
   },
   {
@@ -86,20 +89,21 @@ const steps = [
           type: 'next'
         }
       ],
-      title: 'toggle button',
+      title: 'Toggle Button',
       text: ["Switches between quarantine status map and a 3D display of a number of cases in statistical areas('stats')."],
   },
 ];
+
 function Button() {
-  const tour = useContext(ShepherdTourContext);
+  tour = useContext(ShepherdTourContext);
   return (
-    <button className="button dark" onClick={tour.start}>
+    <button id="sheperd" className="button dark" onClick={tour.start}>
       Start Tour
     </button>
   );
 }
 //Creates legend elemnt by layer type
-function Legend(activeState){ 
+function Legend(activeState){
 
   //Define style varaibles
   const title={
@@ -110,7 +114,7 @@ function Legend(activeState){
     fontSize:stylesheet['item_text']};
   let divclass;
 
-  
+
   if (activeState.activeState.id==0){
     divclass='textdiv';}
   else if (activeState.activeState.id==1){
@@ -125,12 +129,12 @@ function Legend(activeState){
       );
     }
 
-  const [dimensions, setDimensions] = React.useState({ 
+  /*const [dimensions, setDimensions] = React.useState({
       height: $(window).height(),
       width: $(window).width()
-    })
-  //The function is also holding a 'hook' which is upading the legend whenever the deminsions of the window got changed 
-  React.useEffect(() => {
+    })*/
+  //The function is also holding a 'hook' which is upading the legend whenever the deminsions of the window got changed
+  /*React.useEffect(() => {
       function handleResize() {
         resizeIt(elements,stylesheet);
         setDimensions({
@@ -140,9 +144,9 @@ function Legend(activeState){
       window.addEventListener('resize', handleResize)
       return _ => {
         window.removeEventListener('resize', handleResize)
-      
-    }})
-  //return of the function which builds the legend items 
+
+    }})*/
+  //return of the function which builds the legend items
   return <div className='bottomContainer'>
      <div className='legend'>
     <div className='mb6'>
@@ -154,7 +158,7 @@ function Legend(activeState){
       </div>
       </div>
 }
-//options array stores the details of each 'mode' 
+//options array stores the details of each 'mode'
 const options = [{
   id:0,
   name: 'Legend',
@@ -185,20 +189,27 @@ const options = [{
           {'id':'neighborhoods_score','type':'fill-extrusion','source':'jlm_data_source','source-layer':'jlm_stat_areas','fill-extrusion-color':['interpolate',['exponential',2],
           ['get', 'score'],0, '#142850',5, '#27496d',10, '#0c7b93',15, '#00a8cc',20, '#abdfeb'],'fill-extrusion-opacity':0.7,'fill-extrusion-base':0}]}];
 
-$(document).ready(function() {
+/*$(document).ready(function() {
   resizeIt(elements,stylesheet);
-  ReactDOM.render(<Application />, document.getElementById('app'));
+  
   resizeIt(elements,stylesheet,'new');
 
-});
-
+});*/
+//ReactDOM.render(<Application />, document.getElementById('app'));
 //The main component that holdes the map itself
 class Application extends React.Component {
-  
-  mapRef = React.createRef();
+	public state: any;
+	//public setState: any;
+	public layers: any;
+	public name: any;
+	public description: any;
+	public stops: any;
+  public property: any;
+  mapRef = React.createRef<HTMLDivElement>();
   map;
 
-  constructor(props: Props) {
+
+  constructor(props) {
     super(props);
     this.state = {
       active: options[0]
@@ -210,7 +221,7 @@ class Application extends React.Component {
   }
 
   componentDidMount() {
-     
+
       mapboxgl.accessToken = process.env.REACT_APP_TOKEN;
       map = new mapboxgl.Map({
       container: 'map',
@@ -234,12 +245,12 @@ class Application extends React.Component {
     map.on('load', () => {
       map.addSource('jlm_data_source', {
         type: 'vector',
-        url:'mapbox://mikethe1.c8mh0qff'
+        url:process.env.REACT_APP_TILESET
       });
 
       this.setLayer();
     });
-    
+
     if (this.state.active.id==0)
     {
       func=function(e){CheckStatus('hover',[e.lngLat.lng,e.lngLat.lat],map,geocoder,geocoderActive)};
@@ -247,7 +258,9 @@ class Application extends React.Component {
     }
     if (!cookies.get('quarantine')){
         cookies.set('quarantine','quarantine');
-        $('.button.dark').trigger('click');
+        let evt=document.createEvent("MouseEvents");
+        evt.initMouseEvent("click"    ,true,true,window,0,0,0,0,0,false,false,false,false,0,null);
+        document.getElementById("sheperd").dispatchEvent(evt);
       }
   }
   setLayer(){
@@ -289,8 +302,8 @@ class Application extends React.Component {
       else if (layers[i]['type']=='fill-extrusion')
       {
         let data;
-        let ids=[];
-        let expression = ['match', ['get', 'id']];
+        ids=[];
+        expression = ['match', ['get', 'id']];
         let extrudeFactor=250;
 
         data=map.querySourceFeatures('jlm_data_source', {sourceLayer: 'jlm_stat_areas'})
@@ -349,7 +362,7 @@ class Application extends React.Component {
   };
 
   render() {
-    
+
     const { name, description, stops, property } = this.state.active;
     const renderOptions = (option, i) => {
       return (
@@ -359,10 +372,10 @@ class Application extends React.Component {
         </label>
       );
     }
-   
-      
-     
-  
+
+
+
+
     return (
       <div>
         <div id='map' ref={this.mapRef} className="absolute top right left bottom" />
@@ -378,7 +391,7 @@ class Application extends React.Component {
         </ShepherdTour>
       </div>
     );
-    
+
   }
 }
-
+ReactDOM.render(<Application />, document.getElementById('app'));

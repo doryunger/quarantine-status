@@ -1,6 +1,6 @@
 # Quarantine Status Check
 
-> A React project which utilizes [Mapbox's SDK](https://docs.mapbox.com/mapbox-gl-js/overview/) for representing data on quarantine status in Jerusalem's neighborhoods and general statistics in 3D.
+> A React (+TypeScript) project which utilizes [Mapbox's SDK](https://docs.mapbox.com/mapbox-gl-js/overview/) for representing data on quarantine status in Jerusalem's neighborhoods and general statistics in 3D.
  
 ![example](images/example.gif)
 

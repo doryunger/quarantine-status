@@ -1,14 +1,15 @@
 import * as turf from '@turf/turf';
 import * as d3 from "d3";
 let entries;
+let polygon:any;
 d3.json('new_address.geojson').then((data)=> {
     entries=data;
   });
 
-function CheckStatus(source,coords,map,geocoder,geocoderActive){
+function CheckStatus(source,coords,map,geocoder?,geocoderActive?){
     let func = function(e){CheckStatus('hover',[e.lngLat.lng,e.lngLat.lat],map)};
     let item;
-    let polygon=''
+    polygon=''
     var features=map.querySourceFeatures('jlm_data_source', {sourceLayer: 'jlm_neighborhoods'});
     for (item in features){
       let point=turf.point(coords)
