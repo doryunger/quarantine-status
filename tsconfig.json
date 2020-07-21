@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "es2015",
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "allowSyntheticDefaultImports":true, 
+      "outDir": "./src",
+      "rootDir": "./src",
+      "sourceMap": true,
+      "jsx": "react",
+      "lib": [
+        "ES5",
+        "ES2015",
+        "DOM",
+        "ScriptHost"]
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}

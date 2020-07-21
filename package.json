@@ -2,7 +2,8 @@
   "name": "basic",
   "version": "0.0.0",
   "scripts": {
-    "start": "PORT=8000 react-scripts start"
+    "start": "react-scripts start",
+    "build": "tsc && GENERATE_SOURCEMAP=false react-scripts build"
   },
   "devDependencies": {
     "react-scripts": "^1.0.10"
@@ -16,6 +17,9 @@
     "d3": "5.16.0",
     "@mapbox/mapbox-gl-geocoder": "4.5.1",
     "universal-cookie": "4.0.3",
-    "react-shepherd": "3.2.0"
+    "react-shepherd": "3.2.0",
+    "js-to-ts-converter": "0.16.3",
+    "@types/node": "12.12.2",
+    "@types/react-dom": "16.0.5"
   }
 }
